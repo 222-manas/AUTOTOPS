@@ -1,0 +1,4 @@
+__pycache__/
+incidents/
+incidents_old/
+*.pyc
