@@ -90,3 +90,25 @@ The tests fake Prometheus and need no cluster.
 
 - docs/observability/metrics.md
 - docs/observability/incident-schema.md
+
+## Status
+
+| Item | Status |
+|---|---|
+| Prometheus, Grafana, Loki running on a local kind cluster | Done |
+| Standard metrics documented (`docs/observability/metrics.md`) | Done |
+| Logs centralised in Loki, queryable in Grafana | Done |
+| Kubernetes state, events and restart info collected | Done |
+| Three deterministic detection rules (CrashLoopBackOff, HighHTTP5xxRate, OOMKilled) | Done |
+| Watcher implementation | Done |
+| Versioned incident schema (`schemas/incident.json`) | Done |
+| Unit tests (11 passing) and manual failure tests | Done |
+| Integration with the DevOps app and the Diagnoser | In progress |
+
+## Example incidents
+
+Real incidents produced by the Watcher are in `examples/`, one per failure type. They are the input format for the Diagnoser.
+
+## Not built yet (by design)
+
+LLM integration, RAG, automatic remediation, failure prediction and ML models are deferred. The Watcher is deterministic on purpose.
