@@ -11,7 +11,6 @@ NAMESPACE = os.getenv("NAMESPACE", "default")
 SERVICE = os.getenv("SERVICE", "demo-api")
 INTERVAL = int(os.getenv("INTERVAL", "10"))
 OUT_DIR = pathlib.Path(os.getenv("INCIDENT_DIR", str(pathlib.Path.home() / "autotops" / "incidents")))
-
 reported = {}
 COOLDOWN = int(os.getenv("COOLDOWN", "300"))
 
@@ -22,16 +21,12 @@ def emit(key, failure_type, severity, pod, status, metrics):
         return
     reported[key] = now
     name = pod.metadata.name
-    evidence = {
-        "pod_status": status,
-        "kubernetes_events": k8s.get_events(NAMESPACE, name),
-        "metrics": metrics,
-        "logs": k8s.get_logs(NAMESPACE, name),
-    }
-    incident = create_incident(next_incident_id(OUT_DIR), SERVICE, NAMESPACE,
-                               failure_type, severity, evidence)
+    evidence = {"pod_status": status, "kubernetes_events": k8s.get_events(NAMESPACE, name),
+                "metrics": metrics, "logs": k8s.get_logs(NAMESPACE, name)}
+    incident = create_incident(next_incident_id(OUT_DIR), SERVICE, NAMESPACE, failure_type, severity, evidence)
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
     path = OUT_DIR / f"{incident['incident_id']}.json"
-    path.write_text(json.dumps(incident, indent=2))
+    path.write_text(json.dumps(incident, indent=2), encoding="utf-8")
     print(f"[WATCHER] INCIDENT {incident['incident_id']} {failure_type} ({severity}) -> {path}", flush=True)
 
 
@@ -43,15 +38,12 @@ def run_once():
     pod = pods[0]
     status = k8s.pod_status(pod)
     restarts = max([c["restart_count"] for c in status["containers"]] or [0])
-
     sev = rules.check_crashloop(status)
     if sev:
         emit(("CrashLoopBackOff",), "CrashLoopBackOff", sev, pod, status, {"restart_count": restarts})
-
     sev = rules.check_oom(status)
     if sev:
         emit(("OOMKilled", restarts), "OOMKilled", sev, pod, status, {"restart_count": restarts})
-
     sev, metrics = rules.check_5xx()
     if sev:
         emit(("HighHTTP5xxRate",), "HighHTTP5xxRate", sev, pod, status, metrics)
@@ -60,7 +52,7 @@ def run_once():
 
 
 if __name__ == "__main__":
-    OUT_DIR.mkdir(exist_ok=True)
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
     print(f"[WATCHER] started: service={SERVICE} namespace={NAMESPACE} interval={INTERVAL}s", flush=True)
     while True:
         try:

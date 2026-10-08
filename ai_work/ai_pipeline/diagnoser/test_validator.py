@@ -1,4 +1,4 @@
-﻿from manas_work.diagnoser.validator import DiagnosisValidator
+﻿from manas_work.ai_pipeline.diagnoser.validator import DiagnosisValidator
 
 
 def test_valid_diagnosis():

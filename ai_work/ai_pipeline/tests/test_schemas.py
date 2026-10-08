@@ -5,7 +5,7 @@ from pathlib import Path
 from jsonschema import Draft7Validator
 
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 SCHEMA_DIR = ROOT / "schemas"
 
 

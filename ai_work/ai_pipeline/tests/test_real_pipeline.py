@@ -1,17 +1,22 @@
-from incident_loader import IncidentLoader
-from diagnoser.context import DiagnosticContext
-from diagnoser.mock import MockDiagnoser
-from fixer.proposal import RemediationProposal
-from fixer.approval import ApprovalManager
-from fixer.execution_handoff import ExecutionHandoff
-from recovery.verifier_result import RecoveryResult
-from reporter.reporter import IncidentReporter
+from pathlib import Path
+from manas_work.ai_pipeline.incident_loader import IncidentLoader
+from manas_work.ai_pipeline.diagnoser.context import DiagnosticContext
+from manas_work.ai_pipeline.diagnoser.mock import MockDiagnoser
+from manas_work.ai_pipeline.fixer.proposal import RemediationProposal
+from manas_work.ai_pipeline.fixer.approval import ApprovalManager
+from manas_work.ai_pipeline.fixer.execution_handoff import ExecutionHandoff
+from manas_work.ai_pipeline.recovery.verifier_result import RecoveryResult
+from manas_work.ai_pipeline.reporter.reporter import IncidentReporter
 
 
 def test_real_pipeline():
 
-    # 1. Load the real incident produced by Member 2
-    incident_file = "examples/incident-CrashLoopBackOff.json"
+    # 1. Load the real incident produced by Manas Work Watcher
+    incident_file = str(
+    Path(__file__).resolve().parents[2]
+    / "examples"
+    / "incident-CrashLoopBackOff.json"
+)
 
     loader = IncidentLoader()
     incident = loader.load(incident_file)
@@ -52,7 +57,7 @@ def test_real_pipeline():
         "target": handoff["target"]
     }
 
-    # 7. Receive recovery verification from Member 2
+    # 7. Receive recovery verification from Manas Work Watcher
     recovery_receiver = RecoveryResult()
 
     recovery = recovery_receiver.receive({

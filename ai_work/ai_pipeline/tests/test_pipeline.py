@@ -1,7 +1,7 @@
-from diagnoser.mock import MockDiagnoser
-from fixer.proposal import RemediationProposal
-from fixer.approval import ApprovalManager
-from reporter.reporter import IncidentReporter
+from manas_work.ai_pipeline.diagnoser.mock import MockDiagnoser
+from manas_work.ai_pipeline.fixer.proposal import RemediationProposal
+from manas_work.ai_pipeline.fixer.approval import ApprovalManager
+from manas_work.ai_pipeline.reporter.reporter import IncidentReporter
 
 
 def test_full_pipeline():
@@ -86,7 +86,7 @@ def test_full_pipeline():
     # ---------------------------------
     # STEP 5: Simulated Execution
     # ---------------------------------
-    # Member 3 does NOT execute Kubernetes
+    # Manas Work AI pipeline does NOT execute Kubernetes
     # commands.
     #
     # This represents the approved proposal
@@ -106,7 +106,7 @@ def test_full_pipeline():
     # STEP 6: Recovery Verification
     # ---------------------------------
     # This represents recovery information
-    # coming back from Member 2.
+    # coming back from Manas Work Watcher.
 
     recovery = {
         "incident_id": incident["incident_id"],

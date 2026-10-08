@@ -1,18 +1,19 @@
-from incident_loader import IncidentLoader
-from diagnoser.context import DiagnosticContext
-from diagnoser.ollama import OllamaDiagnoser
-from diagnoser.validator import DiagnosisValidator
-from fixer.proposal import RemediationProposal
-from fixer.approval import ApprovalManager
-from fixer.execution_handoff import ExecutionHandoff
-from recovery.verifier_result import RecoveryResult
-from reporter.reporter import IncidentReporter
+from pathlib import Path
+from manas_work.ai_pipeline.incident_loader import IncidentLoader
+from manas_work.ai_pipeline.diagnoser.context import DiagnosticContext
+from manas_work.ai_pipeline.diagnoser.ollama import OllamaDiagnoser
+from manas_work.ai_pipeline.diagnoser.validator import DiagnosisValidator
+from manas_work.ai_pipeline.fixer.proposal import RemediationProposal
+from manas_work.ai_pipeline.fixer.approval import ApprovalManager
+from manas_work.ai_pipeline.fixer.execution_handoff import ExecutionHandoff
+from manas_work.ai_pipeline.recovery.verifier_result import RecoveryResult
+from manas_work.ai_pipeline.reporter.reporter import IncidentReporter
 
 
 def test_ai_pipeline():
 
-    # 1. Load real Member 2 incident
-    incident_file = "examples/incident-CrashLoopBackOff.json"
+    # 1. Load real Manas Work Watcher incident
+    incident_file = str(Path(__file__).resolve().parents[2] / "examples" / "incident-CrashLoopBackOff.json")
 
     loader = IncidentLoader()
     incident = loader.load(incident_file)
@@ -63,7 +64,7 @@ def test_ai_pipeline():
         "target": handoff["target"]
     }
 
-    # 8. Recovery result from Member 2
+    # 8. Recovery result from Manas Work Watcher
     recovery_receiver = RecoveryResult()
 
     recovery = recovery_receiver.receive({

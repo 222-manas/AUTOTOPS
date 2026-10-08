@@ -1,24 +1,25 @@
+from pathlib import Path
 
-from incident_loader import IncidentLoader
-from diagnoser.context import DiagnosticContext
-from diagnoser.ollama import OllamaDiagnoser
-from diagnoser.validator import DiagnosisValidator
-from fixer.proposal import RemediationProposal
+from manas_work.ai_pipeline.incident_loader import IncidentLoader
+from manas_work.ai_pipeline.diagnoser.context import DiagnosticContext
+from manas_work.ai_pipeline.diagnoser.ollama import OllamaDiagnoser
+from manas_work.ai_pipeline.diagnoser.validator import DiagnosisValidator
+from manas_work.ai_pipeline.fixer.proposal import RemediationProposal
 
 
 EXAMPLES = [
     (
-        "examples/incident-CrashLoopBackOff.json",
+        str(Path(__file__).resolve().parents[2] / "examples" / "incident-CrashLoopBackOff.json"),
         "CrashLoopBackOff",
         "restart",
     ),
     (
-        "examples/incident-HighHTTP5xxRate.json",
+        str(Path(__file__).resolve().parents[2] / "examples" / "incident-HighHTTP5xxRate.json"),
         "HighHTTP5xxRate",
         "rollback",
     ),
     (
-        "examples/incident-OOMKilled.json",
+        str(Path(__file__).resolve().parents[2] / "examples" / "incident-OOMKilled.json"),
         "OOMKilled",
         "scale",
     ),
