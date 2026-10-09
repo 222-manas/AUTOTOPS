@@ -44,7 +44,7 @@ def test_real_pipeline():
 
     # 5. Human approval
     approval_manager = ApprovalManager()
-    approval = approval_manager.approve(proposal)
+    approval = approval_manager.approve(proposal, approved_by="test-reviewer")
 
     # 6. Create execution handoff for Member 1
     handoff_manager = ExecutionHandoff()

@@ -48,7 +48,7 @@ def test_ai_pipeline():
 
     # 6. Human approval
     approval_manager = ApprovalManager()
-    approval = approval_manager.approve(proposal)
+    approval = approval_manager.approve(proposal, approved_by="test-reviewer")
 
     # 7. Execution handoff to Member 1
     handoff_manager = ExecutionHandoff()

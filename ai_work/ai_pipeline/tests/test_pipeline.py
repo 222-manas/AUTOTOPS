@@ -77,7 +77,7 @@ def test_full_pipeline():
 
     approval_manager = ApprovalManager()
 
-    approval = approval_manager.approve(proposal)
+    approval = approval_manager.approve(proposal, approved_by="test-reviewer")
 
     print("\n[4] Human approval")
     print("Status:", approval["status"])

@@ -15,17 +15,17 @@ def test_approval():
 
     manager = ApprovalManager()
 
-    approved = manager.approve(proposal)
+    approved = manager.approve(proposal, approved_by="test-reviewer")
 
     assert approved["incident_id"] == "INC-TEST-001"
     assert approved["status"] == "APPROVED"
-    assert approved["approved_by"] == "human"
+    assert approved["approved_by"] == "test-reviewer"
     assert approved["action"] == "restart"
 
-    rejected = manager.reject(proposal)
+    rejected = manager.reject(proposal, rejected_by="test-reviewer")
 
     assert rejected["status"] == "REJECTED"
-    assert rejected["approved_by"] == "human"
+    assert rejected["approved_by"] == "test-reviewer"
 
     print("Approval test passed!")
     print("Approved:", approved)
