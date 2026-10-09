@@ -1,6 +1,6 @@
 # Observability Metrics
 
-The demo app exposes `/metrics`; Prometheus scrapes it using `manas_work/observability/prometheus/servicemonitor.yaml`.
+The demo app exposes `/metrics`; Prometheus scrapes it using `observability/prometheus/servicemonitor.yaml`.
 
 | Metric | Source | PromQL | Purpose |
 |---|---|---|---|
@@ -23,4 +23,4 @@ Promtail sends container logs to Loki. In Grafana Explore, query `{app="demo-api
 | OOMKilled | Last termination reason is `OOMKilled` or exit code 137 |
 | HighHTTP5xxRate | More than 5 new HTTP 5xx responses in the last minute |
 
-The threshold is `ERRORS_5XX_THRESHOLD` in `manas_work/watcher/rules.py`. Duplicate incidents are suppressed during the cooldown (default 300 seconds).
+The threshold is `ERRORS_5XX_THRESHOLD` in `observability/watcher/rules.py`. Duplicate incidents are suppressed during the cooldown (default 300 seconds).

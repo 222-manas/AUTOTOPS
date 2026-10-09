@@ -1,6 +1,6 @@
 # Incident Schema (version 1.0)
 
-The Manas Work Watcher writes one JSON file per incident to the configured output directory. The authoritative contract is `manas_work/schemas/incident.json`; incidents are validated against it before being written. The AI pipeline consumes the same contract without needing to know how Prometheus, Loki, or Kubernetes work.
+The AUTOTOPS Watcher writes one JSON file per incident to the configured output directory. The authoritative contract is `ai_work/schemas/incident.json`; incidents are validated against it before being written. The AI pipeline consumes the same contract without needing to know how Prometheus, Loki, or Kubernetes work.
 
 | Field | Type | Description |
 |---|---|---|
@@ -17,4 +17,4 @@ The Manas Work Watcher writes one JSON file per incident to the configured outpu
 | `evidence.metrics` | object | Triggering metric values |
 | `evidence.logs` | array | Recent application log lines |
 
-Samples are in `manas_work/examples/`; the consumer is `manas_work/ai_pipeline/incident_loader.py`. Coordinate contract changes with all consumers and update tests and documentation together.
+Samples are in `ai_work/examples/`; the consumer is `ai_work/ai_pipeline/incident_loader.py`. Coordinate contract changes with all consumers and update tests and documentation together.

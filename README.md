@@ -25,7 +25,7 @@ Demo API -> Prometheus / Kubernetes API -> Observability Watcher
 ## Run tests (PowerShell, repository root)
 
 ```powershell
-python -m pytest .\observability\tests -v
+python -m pytest .\observability\watcher\tests -v
 python -m pytest .\ai_work\ai_pipeline -v
 ```
 

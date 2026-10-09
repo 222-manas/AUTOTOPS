@@ -11,7 +11,7 @@ This component collects signals from Kubernetes and Prometheus and applies deter
 ## Test from repository root
 
 ```powershell
-python -m pytest .\observability\tests -v
+python -m pytest .\observability\watcher\tests -v
 ```
 
 Unit tests mock external monitoring calls. Running the live Watcher requires a configured Kubernetes context and reachable Prometheus endpoint.
