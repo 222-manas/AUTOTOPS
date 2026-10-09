@@ -1,10 +1,10 @@
 from pathlib import Path
 
-from manas_work.ai_pipeline.incident_loader import IncidentLoader
-from manas_work.ai_pipeline.diagnoser.context import DiagnosticContext
-from manas_work.ai_pipeline.diagnoser.ollama import OllamaDiagnoser
-from manas_work.ai_pipeline.diagnoser.validator import DiagnosisValidator
-from manas_work.ai_pipeline.fixer.proposal import RemediationProposal
+from ai_work.ai_pipeline.incident_loader import IncidentLoader
+from ai_work.ai_pipeline.diagnoser.context import DiagnosticContext
+from ai_work.ai_pipeline.diagnoser.ollama import OllamaDiagnoser
+from ai_work.ai_pipeline.diagnoser.validator import DiagnosisValidator
+from ai_work.ai_pipeline.fixer.proposal import RemediationProposal
 
 
 EXAMPLES = [

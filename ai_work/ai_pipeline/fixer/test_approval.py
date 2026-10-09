@@ -1,4 +1,4 @@
-﻿from manas_work.ai_pipeline.fixer.approval import ApprovalManager
+from ai_work.ai_pipeline.fixer.approval import ApprovalManager
 
 
 def test_approval():

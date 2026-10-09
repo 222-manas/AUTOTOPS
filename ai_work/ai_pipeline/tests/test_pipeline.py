@@ -1,7 +1,7 @@
-from manas_work.ai_pipeline.diagnoser.mock import MockDiagnoser
-from manas_work.ai_pipeline.fixer.proposal import RemediationProposal
-from manas_work.ai_pipeline.fixer.approval import ApprovalManager
-from manas_work.ai_pipeline.reporter.reporter import IncidentReporter
+from ai_work.ai_pipeline.diagnoser.mock import MockDiagnoser
+from ai_work.ai_pipeline.fixer.proposal import RemediationProposal
+from ai_work.ai_pipeline.fixer.approval import ApprovalManager
+from ai_work.ai_pipeline.reporter.reporter import IncidentReporter
 
 
 def test_full_pipeline():

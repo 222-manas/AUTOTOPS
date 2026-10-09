@@ -4,7 +4,7 @@ import pathlib
 
 from jsonschema import validate
 
-SCHEMA_PATH = pathlib.Path(__file__).resolve().parent.parent / "schemas" / "incident.json"
+SCHEMA_PATH = pathlib.Path(__file__).resolve().parents[2] / "ai_work" / "schemas" / "incident.json"
 SCHEMA = json.loads(SCHEMA_PATH.read_text())
 WATCHER_VERSION = "watcher-v0"
 

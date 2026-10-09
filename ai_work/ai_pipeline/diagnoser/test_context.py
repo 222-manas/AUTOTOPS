@@ -1,4 +1,4 @@
-﻿from manas_work.ai_pipeline.diagnoser.context import DiagnosticContext
+from ai_work.ai_pipeline.diagnoser.context import DiagnosticContext
 
 
 def test_diagnostic_context():

@@ -1,5 +1,5 @@
 import json
-from manas_work.ai_pipeline.incident_loader import IncidentLoader
+from ai_work.ai_pipeline.incident_loader import IncidentLoader
 
 
 def test_incident_loader(tmp_path):

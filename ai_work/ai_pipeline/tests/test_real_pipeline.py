@@ -1,12 +1,12 @@
 from pathlib import Path
-from manas_work.ai_pipeline.incident_loader import IncidentLoader
-from manas_work.ai_pipeline.diagnoser.context import DiagnosticContext
-from manas_work.ai_pipeline.diagnoser.mock import MockDiagnoser
-from manas_work.ai_pipeline.fixer.proposal import RemediationProposal
-from manas_work.ai_pipeline.fixer.approval import ApprovalManager
-from manas_work.ai_pipeline.fixer.execution_handoff import ExecutionHandoff
-from manas_work.ai_pipeline.recovery.verifier_result import RecoveryResult
-from manas_work.ai_pipeline.reporter.reporter import IncidentReporter
+from ai_work.ai_pipeline.incident_loader import IncidentLoader
+from ai_work.ai_pipeline.diagnoser.context import DiagnosticContext
+from ai_work.ai_pipeline.diagnoser.mock import MockDiagnoser
+from ai_work.ai_pipeline.fixer.proposal import RemediationProposal
+from ai_work.ai_pipeline.fixer.approval import ApprovalManager
+from ai_work.ai_pipeline.fixer.execution_handoff import ExecutionHandoff
+from ai_work.ai_pipeline.recovery.verifier_result import RecoveryResult
+from ai_work.ai_pipeline.reporter.reporter import IncidentReporter
 
 
 def test_real_pipeline():

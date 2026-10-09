@@ -1,7 +1,7 @@
 from pathlib import Path
-from manas_work.ai_pipeline.incident_loader import IncidentLoader
-from manas_work.ai_pipeline.diagnoser.context import DiagnosticContext
-from manas_work.ai_pipeline.diagnoser.ollama import OllamaDiagnoser
+from ai_work.ai_pipeline.incident_loader import IncidentLoader
+from ai_work.ai_pipeline.diagnoser.context import DiagnosticContext
+from ai_work.ai_pipeline.diagnoser.ollama import OllamaDiagnoser
 
 
 def test_ollama_diagnoser():

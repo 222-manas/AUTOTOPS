@@ -1,4 +1,4 @@
-﻿from manas_work.ai_pipeline.fixer.execution_handoff import ExecutionHandoff
+from ai_work.ai_pipeline.fixer.execution_handoff import ExecutionHandoff
 
 
 def test_execution_handoff():

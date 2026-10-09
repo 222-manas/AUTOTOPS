@@ -1,4 +1,4 @@
-﻿from manas_work.ai_pipeline.reporter.reporter import IncidentReporter
+from ai_work.ai_pipeline.reporter.reporter import IncidentReporter
 
 
 def test_incident_report():

@@ -1,4 +1,4 @@
-﻿from manas_work.ai_pipeline.fixer.proposal import RemediationProposal
+from ai_work.ai_pipeline.fixer.proposal import RemediationProposal
 
 
 def test_crashloop_proposal():

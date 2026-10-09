@@ -1,4 +1,4 @@
-﻿from manas_work.ai_pipeline.recovery.verifier_result import RecoveryResult
+from ai_work.ai_pipeline.recovery.verifier_result import RecoveryResult
 
 
 def test_recovery_result():
