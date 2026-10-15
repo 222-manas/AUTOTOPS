@@ -1,0 +1,6 @@
+# Shared development and test dependencies for AutoOps
+-r app/requirements.txt
+pytest>=8.0,<9.0
+requests>=2.31,<3.0
+kubernetes>=29.0,<35.0
+jsonschema>=4.20,<5.0
