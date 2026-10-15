@@ -8,7 +8,7 @@ AutoTops combines Kubernetes observability, deterministic incident detection, an
 Demo API -> Prometheus / Kubernetes API -> Observability Watcher
          -> normalized incident JSON -> AI Work pipeline
          -> diagnosis -> validation -> remediation proposal
-         -> approval-gated handoff -> recovery verification -> report
+         -> human approval -> execution handoff -> recovery verification -> report
 ```
 
 ## Repository layout
@@ -18,18 +18,55 @@ Demo API -> Prometheus / Kubernetes API -> Observability Watcher
 - `observability/watcher/` — incident rules, collectors, Watcher, and tests.
 - `observability/prometheus/` — Prometheus ServiceMonitor.
 - `observability/docs/` — metrics and incident contract documentation.
-- `ai_work/ai_pipeline/` — incident loader, diagnosis, validation, remediation proposals, approval handoff, recovery results, and reporting.
+- `ai_work/ai_pipeline/` — incident loader, diagnosis, validation, remediation proposals, approval handoff, recovery results, reporting, and CLI runner.
 - `ai_work/examples/` and `ai_work/schemas/` — sample incidents and JSON contracts.
 - `scripts/` — local demo helpers.
+- `.github/workflows/tests.yml` — CI for watcher and non-Ollama pipeline tests.
 
-## Run tests (PowerShell, repository root)
+## Setup (PowerShell, repository root)
 
 ```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements-dev.txt
+```
+
+## Run unit tests
+
+These tests do not require a running Kubernetes cluster or Ollama service:
+
+```powershell
+python -m pytest .\observability\watcher\tests -v
+python -m pytest .\ai_work\ai_pipeline -v --ignore=ai_work/ai_pipeline/diagnoser/test_ollama.py --ignore=ai_work/ai_pipeline/tests/test_ai_pipeline.py --ignore=ai_work/ai_pipeline/tests/test_all_incidents.py
+```
+
+The three ignored test files call a live Ollama server. To run the complete suite, start Ollama at `http://localhost:11434`, pull `llama3.2:3b`, then run:
+
+```powershell
+ollama pull llama3.2:3b
 python -m pytest .\observability\watcher\tests -v
 python -m pytest .\ai_work\ai_pipeline -v
 ```
 
-Ollama-backed tests require Ollama at `http://localhost:11434` with `llama3.2:3b`. Watcher unit tests mock monitoring calls and do not require a live Kubernetes cluster.
+GitHub Actions runs the non-Ollama unit tests on pushes and pull requests to `main`.
+
+## Run the AI pipeline against an incident file
+
+Use a sample incident first:
+
+```powershell
+python -m ai_work.ai_pipeline.runner .\ai_work\examples\incident-CrashLoopBackOff.json --diagnoser mock --output .\artifacts\incident-analysis.json
+```
+
+For a diagnosis from local Ollama:
+
+```powershell
+ollama pull llama3.2:3b
+python -m ai_work.ai_pipeline.runner .\ai_work\examples\incident-CrashLoopBackOff.json --diagnoser ollama --output .\artifacts\incident-analysis.json
+```
+
+The runner loads and validates the incident, generates and validates a diagnosis, and creates a remediation proposal. It deliberately stops at `AWAITING_HUMAN_APPROVAL`; it does not approve or execute the proposed change. Review the proposal before using the existing approval and execution-handoff components.
 
 ## Run the Watcher
 
@@ -56,4 +93,4 @@ Install and configure Prometheus, Grafana, and Loki before starting the Watcher.
 
 ## Execution boundary
 
-The AI pipeline validates diagnoses and prepares remediation proposals with an approval handoff. Automated tests simulate execution and recovery; they do **not** demonstrate that real Kubernetes resources were remediated. A production executor must enforce authorization and approval before cluster-changing actions.
+The AI pipeline validates diagnoses and prepares approval-gated remediation handoffs. Automated tests simulate execution and recovery; they do **not** demonstrate that real Kubernetes resources were remediated. A production executor must enforce authorization and approval before cluster-changing actions.
