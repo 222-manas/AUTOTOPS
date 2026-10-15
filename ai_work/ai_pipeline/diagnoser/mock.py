@@ -40,9 +40,10 @@ class MockDiagnoser(Diagnoser):
 
         # Match the same structured contract used by the Ollama diagnoser:
         # evidence must be a list of strings, not a nested dictionary.
+        evidence_source = incident.get("evidence", incident)
         evidence = []
         for key in ("pod_status", "kubernetes_events", "metrics", "logs"):
-            value = incident.get(key)
+            value = evidence_source.get(key)
             if value:
                 evidence.append(f"{key}: {value}")
 
