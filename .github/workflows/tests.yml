@@ -2,13 +2,10 @@ name: AutoOps tests
 
 on:
   push:
-    branches: [main]
+    branches: [main, integration/end-to-end]
   pull_request:
     branches: [main]
   workflow_dispatch:
-
-permissions:
-  contents: read
 
 jobs:
   unit-tests:

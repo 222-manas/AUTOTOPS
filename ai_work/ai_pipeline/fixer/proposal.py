@@ -1,6 +1,20 @@
 from typing import Any, Dict, List
 
 
+def _flatten_text(value: Any) -> str:
+    """Collect text from nested log/evidence structures for safety checks."""
+    if isinstance(value, str):
+        return value.lower()
+
+    if isinstance(value, dict):
+        return " ".join(_flatten_text(item) for item in value.values())
+
+    if isinstance(value, (list, tuple)):
+        return " ".join(_flatten_text(item) for item in value)
+
+    return ""
+
+
 class RemediationProposal:
     """
     Creates a structured remediation proposal.
@@ -18,22 +32,26 @@ class RemediationProposal:
         incident_id = incident.get("incident_id", "UNKNOWN")
         service = incident.get("service", "UNKNOWN")
 
+        evidence = incident.get("evidence", {})
+        if not isinstance(evidence, dict):
+            evidence = {}
+
         evidence_refs: List[str] = []
 
-        if incident.get("evidence", {}).get("logs"):
+        if evidence.get("logs"):
             evidence_refs.append("logs")
 
-        if incident.get("evidence", {}).get("kubernetes_events"):
+        if evidence.get("kubernetes_events"):
             evidence_refs.append("kubernetes_events")
 
-        if incident.get("evidence", {}).get("metrics"):
+        if evidence.get("metrics"):
             evidence_refs.append("metrics")
 
         if failure_type == "CrashLoopBackOff":
             action = "restart"
             reason = diagnosis.get(
                 "root_cause",
-                "The application pod is repeatedly crashing."
+                "The application pod is repeatedly crashing.",
             )
             risk = "MEDIUM"
 
@@ -41,17 +59,27 @@ class RemediationProposal:
             action = "scale"
             reason = diagnosis.get(
                 "root_cause",
-                "The application exceeded its memory limit."
+                "The application exceeded its memory limit.",
             )
             risk = "HIGH"
 
         elif failure_type == "HighHTTP5xxRate":
-            action = "rollback"
-            reason = diagnosis.get(
-                "root_cause",
-                "The application is experiencing a high HTTP 5xx error rate."
-            )
-            risk = "HIGH"
+            logs_text = _flatten_text(evidence.get("logs", []))
+
+            if "simulated" in logs_text:
+                action = "investigate"
+                reason = (
+                    "Logs indicate simulated HTTP errors. Verify whether "
+                    "the errors are intentional before considering rollback."
+                )
+                risk = "LOW"
+            else:
+                action = "rollback"
+                reason = diagnosis.get(
+                    "root_cause",
+                    "The application is experiencing a high HTTP 5xx error rate.",
+                )
+                risk = "HIGH"
 
         else:
             action = "investigate"

@@ -9,17 +9,29 @@ from ai_work.ai_pipeline.fixer.proposal import RemediationProposal
 
 EXAMPLES = [
     (
-        str(Path(__file__).resolve().parents[2] / "examples" / "incident-CrashLoopBackOff.json"),
+        str(
+            Path(__file__).resolve().parents[2]
+            / "examples"
+            / "incident-CrashLoopBackOff.json"
+        ),
         "CrashLoopBackOff",
         "restart",
     ),
     (
-        str(Path(__file__).resolve().parents[2] / "examples" / "incident-HighHTTP5xxRate.json"),
+        str(
+            Path(__file__).resolve().parents[2]
+            / "examples"
+            / "incident-HighHTTP5xxRate.json"
+        ),
         "HighHTTP5xxRate",
-        "rollback",
+        "investigate",
     ),
     (
-        str(Path(__file__).resolve().parents[2] / "examples" / "incident-OOMKilled.json"),
+        str(
+            Path(__file__).resolve().parents[2]
+            / "examples"
+            / "incident-OOMKilled.json"
+        ),
         "OOMKilled",
         "scale",
     ),
