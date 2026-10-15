@@ -4,13 +4,9 @@ from .interface import Diagnoser
 
 
 class MockDiagnoser(Diagnoser):
-    """
-    Simple deterministic diagnoser used to test the
-    Manas Work diagnosis pipeline before adding an LLM.
-    """
+    """Deterministic diagnoser used for offline tests and smoke runs."""
 
     def diagnose(self, incident: Dict[str, Any]) -> Dict[str, Any]:
-
         failure_type = incident.get("failure_type", "UNKNOWN")
         incident_id = incident.get("incident_id", "UNKNOWN")
 
@@ -19,7 +15,6 @@ class MockDiagnoser(Diagnoser):
             recommended_action = (
                 "Inspect application logs and recent configuration changes."
             )
-
         elif failure_type == "OOMKilled":
             root_cause = (
                 "Application pod was terminated because it exceeded "
@@ -28,7 +23,6 @@ class MockDiagnoser(Diagnoser):
             recommended_action = (
                 "Inspect memory usage and review the pod memory configuration."
             )
-
         elif failure_type == "HighHTTP5xxRate":
             root_cause = (
                 "Application is returning an unusually high number "
@@ -37,7 +31,6 @@ class MockDiagnoser(Diagnoser):
             recommended_action = (
                 "Inspect application logs and recent deployment changes."
             )
-
         else:
             root_cause = (
                 "Unable to determine the root cause from the "
@@ -45,17 +38,18 @@ class MockDiagnoser(Diagnoser):
             )
             recommended_action = "Collect additional diagnostic evidence."
 
+        # Match the same structured contract used by the Ollama diagnoser:
+        # evidence must be a list of strings, not a nested dictionary.
+        evidence = []
+        for key in ("pod_status", "kubernetes_events", "metrics", "logs"):
+            value = incident.get(key)
+            if value:
+                evidence.append(f"{key}: {value}")
+
         return {
             "incident_id": incident_id,
             "root_cause": root_cause,
-            "evidence": {
-                "pod_status": incident.get("pod_status", {}),
-                "kubernetes_events": incident.get(
-                    "kubernetes_events", []
-                ),
-                "metrics": incident.get("metrics", {}),
-                "logs": incident.get("logs", []),
-            },
+            "evidence": evidence,
             "confidence": 0.70,
             "recommended_action": recommended_action,
         }
