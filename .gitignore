@@ -6,3 +6,4 @@ venv/
 .env
 incidents/
 incidents_old/
+/artifacts/
