@@ -1,10 +1,13 @@
-﻿from typing import Any, Dict
+from typing import Any, Dict
 
 
 class ExecutionHandoff:
     """Prepare an approved remediation proposal for execution."""
 
     def create(self, proposal: Dict[str, Any]) -> Dict[str, Any]:
+        if not isinstance(proposal, dict):
+            raise ValueError("Proposal must be a dictionary.")
+
         if proposal.get("status") != "APPROVED":
             raise ValueError(
                 "Only APPROVED proposals can be handed to execution."
@@ -30,10 +33,11 @@ class ExecutionHandoff:
                 )
 
         return {
-            "incident_id": proposal["incident_id"],
-            "action": proposal["action"],
-            "target": proposal["target"],
-            "risk": proposal["risk"],
+            "incident_id": proposal["incident_id"].strip(),
+            "action": proposal["action"].strip(),
+            "target": proposal["target"].strip(),
+            "risk": proposal["risk"].strip(),
             "approved_by": approved_by.strip(),
+            "approval_required": True,
             "status": "READY_FOR_EXECUTION",
         }
