@@ -98,8 +98,10 @@ The AI pipeline validates diagnoses and prepares approval-gated remediation hand
 ## Validation Results
 
 ### Automated Tests
-- Watcher and AI pipeline test suite: **22 passed**.
-- GitHub Actions on the merged `main` commit: **passed**.
+- Previously recorded watcher and AI pipeline validation: **22 passed**.
+- AI pipeline test suite, including lifecycle integration coverage: **33 passed**.
+- Lifecycle integration test: `ai_work/ai_pipeline/tests/test_lifecycle_integration.py`.
+- GitHub Actions: the previously recorded run on `main` passed. Recheck CI after pushing the latest commits.
 
 ### Local End-to-End Verification
 - Kubernetes demo API health endpoint returned `healthy`.
@@ -115,3 +117,8 @@ The HTTP 500 responses used in this demonstration were intentionally generated b
 
 GitHub Actions run:
 https://github.com/222-manas/AUTOTOPS/actions/runs/38823560720
+
+### Lifecycle Integration Scope
+The integration test covers the synthetic incident lifecycle: remediation proposal, explicit human approval, execution handoff, synthetic recovery result, and incident report generation.
+
+**Execution boundary:** The test verifies that the handoff reaches `READY_FOR_EXECUTION`. Recovery is synthetic, and no actual remediation or Kubernetes resource changes are performed. The test does not establish production recovery or end-to-end automated remediation.
